@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 declare(strict_types=1);
 
 namespace Gemini\Enums;
@@ -17,7 +16,6 @@ enum MimeType: string
     case IMAGE_HEIC = 'image/heic';
     case IMAGE_HEIF = 'image/heif';
     case IMAGE_WEBP = 'image/webp';
-
     // Audio
     case AUDIO_WAV = 'audio/wav';
     case AUDIO_MP3 = 'audio/mp3';
@@ -25,7 +23,8 @@ enum MimeType: string
     case AUDIO_AAC = 'audio/aac';
     case AUDIO_OGG = 'audio/ogg';
     case AUDIO_FLAC = 'audio/flac';
-
+    case AUDIO_L16_PCM_RATE_24000 = 'audio/L16;codec=pcm;rate=24000';
+    case AUDIO_L16_RATE_24000_CHANNELS_1 = 'audio/l16;rate=24000;channels=1';
     // Video
     case VIDEO_MP4 = 'video/mp4';
     case VIDEO_MPEG = 'video/mpeg';
@@ -36,7 +35,6 @@ enum MimeType: string
     case VIDEO_WEBM = 'video/webm';
     case VIDEO_WMV = 'video/wmv';
     case VIDEO_3GPP = 'video/3gpp';
-
     // Plain text
     case TEXT_PLAIN = 'text/plain';
     case TEXT_HTML = 'text/html';
@@ -53,7 +51,38 @@ enum MimeType: string
     case TEXT_XML = 'text/xml';
     case APPLICATION_RTF = 'application/rtf';
     case TEXT_RTF = 'text/rtf';
-
     // Pdf
     case APPLICATION_PDF = 'application/pdf';
+
+    public function isImage(): bool
+    {
+        return str_starts_with($this->value, 'image/');
+    }
+
+    public function isAudio(): bool
+    {
+        return str_starts_with($this->value, 'audio/');
+    }
+
+    public function isVideo(): bool
+    {
+        return str_starts_with($this->value, 'video/');
+    }
+
+    public function isText(): bool
+    {
+        return str_starts_with($this->value, 'text/')
+            || in_array($this, [
+                self::APPLICATION_X_JAVASCRIPT,
+                self::APPLICATION_X_TYPESCRIPT,
+                self::APPLICATION_X_PYTHON_CODE,
+                self::APPLICATION_JSON,
+                self::APPLICATION_RTF,
+            ]);
+    }
+
+    public function isPdf(): bool
+    {
+        return $this === self::APPLICATION_PDF;
+    }
 }
