@@ -13,7 +13,7 @@ final class ErrorException extends Exception
      *
      * @param  array{code: int, message: string, status: string }  $contents
      */
-    public function __construct(private readonly array $contents)
+    public function __construct(public readonly array $contents)
     {
         $message = ($contents['message'] ?: (string) $this->contents['code']) ?: 'Unknown error';
 
